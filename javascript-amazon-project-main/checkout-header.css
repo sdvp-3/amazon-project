@@ -142,6 +142,12 @@
 
  }
 
+ .order-summary {
+   max-height: 520px;
+   overflow-y: auto;
+   padding-right: 6px;
+ }
+
  .cart-items-container,
  .payment-summary {
    border: 1px solid rgb(156, 140, 140);
@@ -157,7 +163,7 @@
 
  .payment-summary {
    margin-bottom: 5px;
-
+   align-self: start;
  }
 
  .cart-items-grid {
@@ -210,7 +216,18 @@
    font-size: 16px;
    color: black;
    font-weight: 500;
+   display: flex;
+   align-items: center;
+   gap: 8px;
+   flex-wrap: wrap;
+ }
 
+ .quantity-selector {
+   border: 1px solid rgb(176, 170, 170);
+   border-radius: 6px;
+   padding: 4px 6px;
+   font-size: 15px;
+   cursor: pointer;
  }
 
  .update-items,
@@ -218,11 +235,23 @@
    font-family: arial;
    font-size: 16px;
    color: rgb(90, 90, 215);
+   cursor: pointer;
  }
 
  .update-items {
    margin-left: 5px;
    margin-right: 5px;
+ }
+
+ .empty-order-summary {
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   height: 100%;
+   font-family: arial;
+   font-size: 18px;
+   color: #565656;
+   font-weight: 600;
  }
 
  .option-title {

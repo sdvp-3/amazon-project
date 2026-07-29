@@ -23,7 +23,7 @@
       <div class="header-content">
 
         <div class="left-sec">
-          <a href="../javascript-amazon-project-main/amazon-html/amazon.html">
+          <a href="amazon-html/amazon.html">
 
 <img class="amazon-logo " src="images/amazon-logo.png">
 
@@ -34,7 +34,7 @@
         
         </div>
 
-        <div class="mid-sec">Checkout(   <a href="../javascript-amazon-project-main/amazon-html/amazon.html" class="return-to-home" data-testid="cart-quantity" style="text-decoration: none;"> 0 Items</a>)</div>
+        <div class="mid-sec">Checkout(   <a href="amazon-html/amazon.html" class="return-to-home js-cart-quantity" data-testid="cart-quantity" style="text-decoration: none;">0 Items</a>)</div>
 
         <div class="right-sec"><img class="checkout-lock-icon" src="images/products/icons/checkout-lock-icon.png"></div>
 
@@ -60,26 +60,26 @@
           <div class="order-title">Order Summary</div>
 
           <div class="payment-summry-row">
-            <div>Items (2):</div>
-            <div class="items-price">$15.98</div>
+            <div>Items (<span class="js-items-count">0</span>):</div>
+            <div class="items-price js-items-price">$0.00</div>
           </div>
 
            <div class="payment-summry-row">
 
             <div>Shipping & handling:</div>
 
-            <div class="items-price"> $9.99 </div>
+            <div class="items-price js-shipping-price">$0.00</div>
 
            </div>
 
            <div class="payment-summry-row subtotal-row">
             <div>Total before tax:</div>
-            <div class="items-price">$25.97</div>
+            <div class="items-price js-subtotal-price">$0.00</div>
           </div>
 
             <div class="payment-summry-row">
              <div>Estimated tax (10%):</div>
-              <div>$2.60</div>
+              <div class="js-tax-price">$0.00</div>
              </div>
 
              <div class="payment-summry-row-total" >
@@ -87,8 +87,8 @@
               <div>
                 Order total:
               </div>
-              <div>
-                $28.57
+              <div class="js-total-price">
+                $0.00
               </div>
 
             </div>

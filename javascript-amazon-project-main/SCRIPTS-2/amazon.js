@@ -1,6 +1,6 @@
 import {products} from '../data/products.js';
 import {formatCurrency} from '../data/money.js'
-import {cart,addToCart} from '../data/cart.js'
+import {cart, addToCart, updateQuantity} from '../data/cart.js'
 
 
 let productsHtml='';
@@ -28,8 +28,8 @@ products.forEach((product )=> {
     <div class="product-price">$${formatCurrency(product.priceCents)}</div>
 
     <div class="product-selector-quantity">
-      <select class="js-quantity-selector">
-        <option selected value="1">1</option>
+      <select class="js-quantity-selector" data-product-id="${product.id}">
+        <option value="1">1</option>
         <option value="2">2</option>
         <option value="3">3</option>
         <option value="4">4</option>
@@ -74,7 +74,25 @@ document.querySelectorAll('.js-add-to-cart')
   .forEach((button) => {
     button.addEventListener('click', () => {
       const productId = button.dataset.productId;
-      addToCart(productId);
+      const quantitySelector = button.closest('.product-container')?.querySelector('.js-quantity-selector');
+      const quantity = Number(quantitySelector?.value || 1);
+      addToCart(productId, quantity);
       updateCartQuantity();
+
+      const productContainer = button.closest('.product-container');
+      const addedMessage = productContainer?.querySelector('.added-to-cart');
+
+      if (addedMessage) {
+        if (addedMessage.dataset.timeoutId) {
+          clearTimeout(Number(addedMessage.dataset.timeoutId));
+        }
+
+        addedMessage.style.opacity = '1';
+        const timeoutId = window.setTimeout(() => {
+          addedMessage.style.opacity = '0';
+        }, 2000);
+
+        addedMessage.dataset.timeoutId = timeoutId;
+      }
     });
   });
