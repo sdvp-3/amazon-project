@@ -1,6 +1,6 @@
 import { products } from "../data/products.js";
 import { formatCurrency } from "../data/money.js";
-import { cart } from "../data/cart.js";
+import { cart, removeOneFromCart, updateQuantity } from "../data/cart.js";
 
 function renderCheckout() {
   let cartSummaryHtml = '';
@@ -43,8 +43,19 @@ function renderCheckout() {
             <div class="product-price">$${itemPrice}</div>
 
             <div class="text">
-              Quantity: <span class="count-items">${cartItem.quantity}</span>
-              <span class="update-items link-primary">Update</span>
+              Quantity:
+              <select class="quantity-selector js-quantity-selector" data-product-id="${matchingProduct.id}" data-current-quantity="${cartItem.quantity}">
+                <option value="1" ${cartItem.quantity === 1 ? 'selected' : ''}>1</option>
+                <option value="2" ${cartItem.quantity === 2 ? 'selected' : ''}>2</option>
+                <option value="3" ${cartItem.quantity === 3 ? 'selected' : ''}>3</option>
+                <option value="4" ${cartItem.quantity === 4 ? 'selected' : ''}>4</option>
+                <option value="5" ${cartItem.quantity === 5 ? 'selected' : ''}>5</option>
+                <option value="6" ${cartItem.quantity === 6 ? 'selected' : ''}>6</option>
+                <option value="7" ${cartItem.quantity === 7 ? 'selected' : ''}>7</option>
+                <option value="8" ${cartItem.quantity === 8 ? 'selected' : ''}>8</option>
+                <option value="9" ${cartItem.quantity === 9 ? 'selected' : ''}>9</option>
+                <option value="10" ${cartItem.quantity === 10 ? 'selected' : ''}>10</option>
+              </select>
               <span class="delete-items link-primary js-delete-link" data-product-id="${matchingProduct.id}">Delete</span>
             </div>
           </div>
@@ -83,12 +94,16 @@ function renderCheckout() {
 
   const orderSummaryElement = document.querySelector('.js-order-summary');
   if (orderSummaryElement) {
-    orderSummaryElement.innerHTML = cartSummaryHtml;
+    if (cartSummaryHtml) {
+      orderSummaryElement.innerHTML = cartSummaryHtml;
+    } else {
+      orderSummaryElement.innerHTML = '<div class="empty-order-summary">Your cart is empty.</div>';
+    }
   }
 
-  const shippingCents = 999;
+  const shippingCents = itemCount === 0 ? 0 : 999;
   const beforeTaxCents = subtotalCents + shippingCents;
-  const taxCents = Math.round(beforeTaxCents * 0.1);
+  const taxCents = itemCount === 0 ? 0 : Math.round(beforeTaxCents * 0.1);
   const totalCents = beforeTaxCents + taxCents;
 
   const itemsCountElement = document.querySelector('.js-items-count');
@@ -122,6 +137,29 @@ function renderCheckout() {
   }
 }
 
+function setupEventListeners() {
+  document.querySelectorAll('.js-delete-link').forEach((button) => {
+    button.addEventListener('click', () => {
+      const productId = button.dataset.productId;
+      removeOneFromCart(productId);
+      renderCheckout();
+      updateCartQuantity();
+      setupEventListeners();
+    });
+  });
+
+  document.querySelectorAll('.js-quantity-selector').forEach((select) => {
+    select.addEventListener('change', () => {
+      const productId = select.dataset.productId;
+      const quantity = Number(select.value);
+      updateQuantity(productId, quantity);
+      renderCheckout();
+      updateCartQuantity();
+      setupEventListeners();
+    });
+  });
+}
+
 function updateCartQuantity() {
   let cartQuantity = 0;
 
@@ -138,3 +176,4 @@ function updateCartQuantity() {
 
 renderCheckout();
 updateCartQuantity();
+setupEventListeners();
